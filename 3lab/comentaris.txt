@@ -1,0 +1,2 @@
+Ex1 funciona correctament
+Ex2 funciona amb abcisses equidistants. Pendent de comprovar si amb Txevitxev també
