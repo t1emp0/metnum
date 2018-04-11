@@ -2,7 +2,8 @@
  * Resol un sistema d equacions triangular per substitucio endarrera
  */
 int substitucio(int n, double **matU, double *x){
-    int i, j, sumatori, sum=1;
+    int i, j;
+    double sumatori, sum = 1;
     tolerancia = 1.e-14;
     
     for (i=0; i < n; i++){
@@ -12,12 +13,14 @@ int substitucio(int n, double **matU, double *x){
         return 0;
     }
     
-    for (i = n-1; i >= 0; i--){
-        sumatori = 0;
+    x[n-1] = matU[n-1][n]/matU[n-1][n-1];
+    
+    for (i = n-2; i >= 0; i--){
+        sumatori = 0.;
         for (j = i+1; j < n; j++){
             sumatori += matU[i][j]*x[j];
         }
-        x[i] = (x[i] - sumatori) / matU[i][i];
+        x[i] = (matU[i][n] - sumatori) / matU[i][i];
     }
     return 1;
 }
