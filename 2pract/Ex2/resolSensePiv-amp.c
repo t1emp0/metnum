@@ -68,32 +68,43 @@ int main(void){
     double ** A, * x, k;
     int n, i, j;
     double tolerancia;
+    FILE *dades,*sol;
+    char fname[128], fname2[128];
     
     tolerancia = 1.e-14;
+    
+    srand( time(NULL) );/*perque el primer sigui random de veritat*/
+    printf("Introdueix el nom de l'arxiu a llegir ");
+    scanf("%s",fname);
+    
+    dades = fopen( fname, "r");
+    
+    fscanf(dades, "%d", &n);
+    /* Dimensio de la matriu = n */
+    
     
     /*printf("Introdueix la dimensio: \n");*/
     scanf("%d", &n);
     
-    A = (double **)malloc( n*sizeof(double *) );
-    for (i = 0; i < n; i++){
-        A[i] = (double *)malloc((n+1)*sizeof(double));
-        for (j = 0; j < n+1; j++){
-            /*printf("Introdueix A[%d][%d]: ", i+1, j+1);*/
-            scanf("%le", &k);
-            A[i][j] = k;
-        }
-    }
-    
+    /*Reservem memòria per la matriu A*/
+    /*Dim de la matriu A: n files i n+1 cols*/
+    A  = (double **)malloc( n*sizeof(double *) );
+    for (i=0; i<n; i++) {
+      A[i] = (double *)malloc( (n+1)*sizeof(double) );
+   }
+
+    /*vector de mida n*/
     x = (double *)malloc(n*sizeof(double));
     
-    /* Mostrem la matriu entrada*/
-    printf("\nMATRIU ENTRADA\n");
-    for (i = 0; i < n; i++){
-        for (j = 0; j < n; j++){
-            printf("%+.1e  ", A[i][j]);
+    
+   /*Llegim la matriu*/
+    for( i = 0; i < n; i++ ){
+        for( j = 0; j < n+1; j++ ){
+        fscanf(dades, "%lf", &A[i][j]);
         }
-        printf("| x%i  =  %+.1e\n", i, A[i][n]);
     }
+    fclose(dades);
+
     
     /*Fem Gauss*/
     if (gauss(A,n,tolerancia) == 0) {
@@ -122,6 +133,28 @@ int main(void){
     for (i = 0; i < n; i++){
         printf("x%d = %e\n", i, A[i]);
     }
+    
+    /* Gaurdem en l'arxiu */
+    printf("Introdueix el nom de l'arxiu on guardar la solució ");
+    scanf("%s",fname2);
+    sol = fopen( fname2, "w");
+    
+    fprintf(sol,"%d\n",n);
+    /*
+     * Per si volem guardar també 
+    for( i = 0; i < n; i++ ){
+        for ( j = i; j < n+1; j++ ){
+            fprintf(sol,"%lf\t", A[i][j]);
+        }
+        fprintf(sol,"\n"); 
+    } */
+    
+    for( i = 0; i < n; i++ ){
+        fprintf(sol, "%le\t", x[i]);
+    }
+    fprintf(sol,"\n"); 
+
+    fclose(sol);
     
     return 0;
 }
