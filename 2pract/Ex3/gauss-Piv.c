@@ -46,6 +46,5 @@ int gaussPivot(double**A, int n, double tol){
             }
         }
     }
-    }
     return 1;
-} 
+}

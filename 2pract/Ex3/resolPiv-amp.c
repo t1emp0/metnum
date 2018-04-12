@@ -3,27 +3,46 @@
 #include <math.h>
 #include <time.h>
 
-/*
- * En teoria aquest main fa: 
- * 
- * llegeix d'un fitxer el sistema lineal
- * fa elim Gauss
- * resol el sistema triangular superior
- * Escriu el resultat en un altre fitxer
- */
 
-/*
- * Donada una matriu, aquest metode la triangula
- */
-int gauss(double **A, int n, double tol){
-    int i, j, k;
-    double m;
-    
-    for (k = 0; k < n; k++){
-        for (i = k+1; i < n; i++){
-            if (fabs(A[k][k]) < tol) {
-                return 0;
+/*Eliminació Gaussiana amb pivotatge parcial*/
+int gaussPivot(double**A, int n, double tol){
+    double max, *vauxiliar, m;
+    int k,v,i,j;
+    /*Vector auxiliar per a l'intercanvi de files: Serà de mida n+1 per guardar també bk.*/
+    vauxiliar = (double *)malloc((n+1)*sizeof(double));
+    /*Cal fer n-1 etapes: */
+    for(k=0;k<n-1;k++){
+        /*Busquem v pertanyent a {k+1,....,n} tq avk(n) sigui el màxim: */
+        max = A[k][k];
+        v = k;
+        for(i=k+1;i<n;i++){
+            if(fabs(A[i][k]) > fabs(max)){
+                max = A[i][k];
+                v = i; 
             }
+        }
+        /*Si el màxim es menor a la tolerància, ja hem acabat:*/
+        if(fabs(max) < tol) return 0;
+        /*Si v!=k Intercanviem les files k i v (a partir de la columna k, ja que les altres seran 0. */
+        if(k!=v){
+            /*Guardem fila k a vauxiliar: */
+            for(i=k;i<n+1;i++){
+                vauxiliar[i] = A[k][i];
+            }
+            
+            /*Passem la fila v a k:*/
+            for(i=k; i < n+1; i++){
+                A[k][i] = A[v][i];
+            }
+
+            /*Passem el vector auxiliar, on guardem la fila k, a v:*/
+            for(i=k; i < n+1; i++){
+                A[v][i] = vauxiliar[i];
+            }    
+        }
+        
+        /* Ara fem els passos que correspondrien a l'Eliminació Gaussiana*/
+        for (i = k+1; i < n; i++){
             
             m = A[i][k]/A[k][k];
             A[i][k] = m; /*Guardem el multiplicador per a futurs usos, com fact LU*/
@@ -34,7 +53,7 @@ int gauss(double **A, int n, double tol){
         }
     }
     return 1;
-} 
+}
 
 
 /*
@@ -112,7 +131,7 @@ int main(void){
     }
     
     /*Fem Gauss*/
-    if (gauss(A,n,tolerancia) == 0) {
+    if (gaussPivot(A,n,tolerancia) == 0) {
         printf("No s'ha pogut triangular la matriu!\n");
         return 1;
     }

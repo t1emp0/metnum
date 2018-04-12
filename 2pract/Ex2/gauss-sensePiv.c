@@ -7,7 +7,7 @@ int gauss(double **A, int n, double tol){
     
     for (k = 0; k < n-1; k++){
         for (i = k+1; i < n; i++){
-            if (A[k][k] < tol) {
+            if (fabs(A[k][k]) < tol) {
                 return 0;
             }
             
