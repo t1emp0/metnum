@@ -52,7 +52,7 @@ double *dif_dividides(int n, double *x, double *y) {
 
 double funq(double x) {
     double y;
-    y = sin(x) - cos(2*x);
+    y = 1. / (1 + (25*x) *x);
     return y;
 }
 
@@ -76,52 +76,55 @@ int main(void) {
     scanf("%d", &u);
     */
     
-    n = 5;
-    l = 0.;
-    u = 2. * 3.1415926535897932384626433832795028841971693993751058209749445923078;
     
-    a = (double *)malloc(n*sizeof(double));
-    
-    /*Aquí emplenem el vector *a amb les abscisses equidistant.*/
-    u = (u-l) / (n-1.);
-    for (i = 0; i < n; i++){
-        a[i] = l + u*i;
+    for (n= 5; n <= 25; n += 5) {
+        n++;
+        
+        l = -1;
+        u = 1;
+        
+        a = (double *)malloc(n*sizeof(double));
+        
+        /*Aquí emplenem el vector *a amb les abscisses equidistant.*/
+        u = (u-l) / (n-1.);
+        for (i = 0; i < n; i++){
+            a[i] = l + u*i;
+        }
+        
+        /*Assignem al vector *b les imatges de les abcisses.*/
+        b = (double *)malloc(n*sizeof(double));
+        for (i = 0; i < n; i++){
+            b[i] = funq(a[i]);
+        }
+        
+        
+        printf("\nVECTORS ENTRADA\n");
+        for (i = 0; i < n; i++){
+            printf("%+.3e  ", a[i]);
+            printf("|  %+.5e\n", b[i]);
+        }
+        
+        
+        pol = dif_dividides(n,a,b);
+        printf("\nDIFERÈNCIES DIVIDIDES FETES\n");
+        
+        printf("\nVECTORS ENTRADA\n");
+        for (i = 0; i < n; i++){
+            printf("%+.3e  ", a[i]);
+            printf("|  %+.5e\n", pol[i]);
+        }
+        
+        
+        /* Avaluació final: x, f(x), p(x) (amb Horner), p(x)-f(x) */
+        printf("\nEvaluació extra: \n");
+        x = l-0.5;
+        for (i = 0; i < 60; i++){
+            k = aval(n,a,pol,x);
+            q = funq(x);
+            printf("%+.2e %+.4e %+.4e %+.4e\n", x, q, k, k-q);
+            x += 0.05;
+        }
     }
-    
-    /*Assignem al vector *b les imatges de les abcisses.*/
-    b = (double *)malloc(n*sizeof(double));
-    for (i = 0; i < n; i++){
-        b[i] = funq(a[i]);
-    }
-    
-    
-    printf("\nVECTORS ENTRADA\n");
-    for (i = 0; i < n; i++){
-        printf("%+.3e  ", a[i]);
-        printf("|  %+.5e\n", b[i]);
-    }
-    
-    
-    pol = dif_dividides(n,a,b);
-    printf("\nDIFERÈNCIES DIVIDIDES FETES\n");
-    
-    printf("\nVECTORS ENTRADA\n");
-    for (i = 0; i < n; i++){
-        printf("%+.3e  ", a[i]);
-        printf("|  %+.5e\n", pol[i]);
-    }
-    
-    
-    /* Avaluació final: x, f(x), p(x) (amb Horner), p(x)-f(x) */
-    printf("\nEvaluació extra: \n");
-    x = l-0.5;
-    for (i = 0; i < 50; i++){
-        k = aval(n,a,pol,x);
-        q = funq(x);
-        printf("%+.2e %+.4e %+.4e %+.4e\n", x, q, k, k-q);
-        x += 0.2;
-    }
-    
     
     return 0;
 }
