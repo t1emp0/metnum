@@ -14,23 +14,28 @@ double *dif_hermite (int n, double *x, double *fx, double *derfx){
     
     x_herm = (double *)malloc(2*n*sizeof(double));
     difHer = (double *)malloc(2*n*sizeof(double));
-        
-    for (i = 0; i < 2*n; i+=2) {
-        x_herm[i] = x[i];
-        x_herm[i+1] = x[i];
-        
-        difHer[i] = fx[i];
-        difHer[i+1] = derfx[i];
+    
+    /*Diferències dividides: Cada cop que es divideixi per 0 sustituim per la derivada.*/
+    for (i = 0; i < 2*n; i++) {
+        if (i%2 == 0) {
+            difHer[i] = x_herm[i];
+        } else {
+            difHer[i] = (difHer[i] - difHer[i-1]) / (x_herm[i] - x_herm[i-k]);
+        }
     }
     
-    for (k = 1; k < n; k++) {
+    /*Fem els altres passos: k=2,...,n*/
+    for (k = 2; k < n; k++) {
         for (i = n-1; i > k; i--){
             if((x_herm[i] - x_herm[i-k]) < tolerancia){
                 return (double *)calloc(n, sizeof(double));
             }
+            
             difHer[i] = (difHer[i] - difHer[i-1]) / (x_herm[i] - x_herm[i-k]);
             
         }
     }
+    
+    
     return difHer;
 }
