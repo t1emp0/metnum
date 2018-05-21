@@ -5,7 +5,7 @@
 /* Funció d'exemple: 1/(1+x) */
 double fun(double x){
     double y;
-    y = 3*x;
+    y = 3*x*x;
     return y;
 }
 

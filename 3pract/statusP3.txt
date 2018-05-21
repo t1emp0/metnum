@@ -1,3 +1,13 @@
- 
-26/04/2018
-Dif_hermite, aval_hermite terminados, falta comprobar que funcionen correctamente.
+22/05/2018
+
+Ex1
+Sinceramente, no me acuerdo de cómo está. Creo que bien pero ya lo miraré; comparando con Ex2.
+
+Ex2
+Perfectamente funcional. Comprobados las funciones y el main.
+
+Ex3
+Solo tengo las funciones. Falta crear el main requerido
+
+Ex4
+Perfectamente funcional. Se podría mejorar el main para que los parámetros fueran pasados por teclado.

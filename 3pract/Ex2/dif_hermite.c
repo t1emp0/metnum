@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
 /*
  * Funció que, donats els vectors
  * x := {x0 , ..., xn },
@@ -9,30 +13,50 @@
 double *dif_hermite (int n, double *x, double *fx, double *derfx){
     
     int k, i;
-    double * difer;
-    double tolerancia = 1.e-14;
+    double * difHer, * x_herm;
     
     x_herm = (double *)malloc(2*n*sizeof(double));
     difHer = (double *)malloc(2*n*sizeof(double));
     
-    /*Diferències dividides: Cada cop que es divideixi per 0 sustituim per la derivada.*/
-    for (i = 0; i < 2*n; i++) {
-        if (i%2 == 0) {
-            difHer[i] = x_herm[i];
+    
+    /*Creem una còpia del vector de les x amb el doble de dades.*/
+    /*Diferències dividides: També emplenem el vector amb les imatges de les dades.*/
+    for (i = 0; i < n; i++) {
+        x_herm[2*i] = x[i];
+        x_herm[2*i+1] = x[i];
+        
+        difHer[2*i] = fx[i];
+        difHer[2*i+1] = fx[i];
+    }
+    
+    /*
+    printf("\nEtapa: 0\n");
+    for (i = 0; i < 2*n; i++){
+        printf("x%d = %+.5e\n", i, difHer[i]);
+    }*/
+        
+    
+    /*Fem la primera etapa a part*/
+    for (i = 2*n-1; i > 0; i--) {
+        if (i % 2 == 1) {
+            difHer[i] = derfx[i/2];
         } else {
-            difHer[i] = (difHer[i] - difHer[i-1]) / (x_herm[i] - x_herm[i-k]);
+            difHer[i] = (difHer[i] - difHer[i-1]) / (x_herm[i] - x_herm[i-1]);
         }
     }
     
-    /*Fem els altres passos: k=2,...,n*/
-    for (k = 2; k < n; k++) {
-        for (i = n-1; i > k; i--){
-            if((x_herm[i] - x_herm[i-k]) < tolerancia){
-                return (double *)calloc(n, sizeof(double));
-            }
-            
-            difHer[i] = (difHer[i] - difHer[i-1]) / (x_herm[i] - x_herm[i-k]);
-            
+    
+    /*Fem els passos d'interpolació: k=1,...,n*/
+    for (k = 2; k < 2*n; k++) {/*? k<=n*/
+        
+        /*
+        printf("\nEtapa: %d\n", k-1);
+        for (i = 0; i < 2*n; i++){
+            printf("x%d = %+.5e\n", i, difHer[i]);
+        } */
+        
+        for (i = (2*n)-1; i >= k; i--){
+                difHer[i] = (difHer[i] - difHer[i-1]) / (x_herm[i] - x_herm[i-k]);
         }
     }
     
