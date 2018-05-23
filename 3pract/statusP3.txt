@@ -1,13 +1,15 @@
-22/05/2018
+23/05/2018
 
 Ex1
 Sinceramente, no me acuerdo de cómo está. Creo que bien pero ya lo miraré; comparando con Ex2.
 
 Ex2
-Perfectamente funcional. Comprobados las funciones y el main.
+Perfectamente funcional. Faltarían funciones de Lagrange pero creo que no vale la pena.
+Comprobados las funciones y el main. Apps hechas (solo la 1a, las otras son como ex1.)
 
 Ex3
-Solo tengo las funciones. Falta crear el main requerido
+Perfectamente funcional. Main creado devolviendo por pantalla resultados pedidos. Apps implementadas.
+Faltaría crear la gráfica pedida en el 3c (bastante difícil e innecesario).
 
 Ex4
-Perfectamente funcional. Se podría mejorar el main para que los parámetros fueran pasados por teclado.
+Perfectamente funcional. Falta añadir el método de Romberg. Apps ya hechas.

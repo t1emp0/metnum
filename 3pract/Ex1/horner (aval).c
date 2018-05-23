@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 /*
  * Aquesta funció evalua el polinomi *difer (de grau n) en el punt z i en retorna la solució.
  * També pot returnar el valor de la seva derivada.

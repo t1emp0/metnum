@@ -34,6 +34,9 @@ int newton (double x0, double *sol, double eps, int it_max){
     int i;
     *sol=x0;
     for(i=0;i<it_max;i++){
+        if (derievaluar(*sol,pol,n) == 0) { /* No debería de ser "< eps" en vez de "== 0"?*/
+            return 2;
+        }
         xant = *sol;
         *sol -= (evaluar(*sol,pol,n) / derievaluar(*sol,pol,n) );
         if( fabs(evaluar(*sol,pol,n)) < eps || fabs(*sol-xant)<eps){

@@ -5,7 +5,13 @@
 /* Funció d'exemple: 1/(1+x) */
 double fun(double x){
     double y;
-    y = 3*x*x;
+    /*
+     y = sqrt(x) / (4 - x*x);
+     y = 1/ (1 + 25*x*x);     
+     */
+    
+    y = sqrt(x) / (4 - x*x);
+    
     return y;
 }
 
@@ -39,9 +45,18 @@ double trapezis (double a, double b, int n) {
 }
 
 int main (void){
-    double sol;
+    int n;
+    double l, u, sol;
     
-    sol = trapezis(0.0,2.0,10);
+    printf("Introdueix l'extrem inferior de l'interval: ");
+    scanf("%lf",&l);
+    printf("Introdueix l'extrem superior de l'interval: ");
+    scanf("%lf",&u);
+    
+    printf("Introdueix la n: ");
+    scanf("%d",&n);
+        
+    sol = trapezis(l, u, n);
     
     printf("%.10e\n", sol);
     

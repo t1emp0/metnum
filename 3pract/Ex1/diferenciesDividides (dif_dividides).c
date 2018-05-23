@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
 /*
  * Donat dos vectors x i y, aquesta funció retorna difer amb es diferencies dividides.
  */
